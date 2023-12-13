@@ -1,0 +1,1731 @@
+<Project>
+  <Name>ModbusSpy</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.ClassDiagram" assembly="NClass.DiagramEditor, Version=2.8.0.2, Culture=neutral, PublicKeyToken=null">
+    <Name>main</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>UARTDevice</Name>
+        <Access>Public</Access>
+        <Location left="1234" top="328" />
+        <Size width="162" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public bool read_byte()</Member>
+        <Member type="Method">public uint16_t available()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>UARTComponent</Name>
+        <Access>Public</Access>
+        <Location left="1499" top="328" />
+        <Size width="162" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public bool read_byte()</Member>
+        <Member type="Method">public uint16_t available()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ESP32ArduinoUARTComponent</Name>
+        <Access>Public</Access>
+        <Location left="1475" top="492" />
+        <Size width="215" height="216" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusSpy</Name>
+        <Access>Public</Access>
+        <Location left="964" top="543" />
+        <Size width="476" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public ModbusRegisterSensor create_sensor(uint8_t device_address, uint16_t register_address)</Member>
+        <Member type="Method">public BinarySensor create_binary_sensor(uint8_t device_address, uint16_t register_address)</Member>
+        <Member type="Method">public uint32_t get_baud_rate()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Component</Name>
+        <Access>Public</Access>
+        <Location left="1021" top="328" />
+        <Size width="162" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public void setup()</Member>
+        <Member type="Method">public void loop()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusSniffer</Name>
+        <Access>Public</Access>
+        <Location left="1150" top="729" />
+        <Size width="163" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public bool start_sniffing()</Member>
+        <Member type="Method">public void stop_sniffing()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusSensor</Name>
+        <Access>Public</Access>
+        <Location left="552" top="328" />
+        <Size width="162" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public Sensor get_sensor()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Sensor</Name>
+        <Access>Public</Access>
+        <Location left="780" top="328" />
+        <Size width="185" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public void publish_state(float state)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusDataSplitter</Name>
+        <Access>Public</Access>
+        <Location left="318" top="814" />
+        <Size width="555" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public vector&lt;ModbusData&gt; split_request_and_response_data(ModbusFrame request, ModbusFrame response)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>BinarySensor</Name>
+        <Access>Public</Access>
+        <Location left="63" top="328" />
+        <Size width="184" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public void publish_state(bool state)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusBinarySensor</Name>
+        <Access>Public</Access>
+        <Location left="318" top="328" />
+        <Size width="184" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public BinarySensor get_sensor()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Comment">
+        <Text>NOTE: NClass does not support pointers. Therefore in some occasions the mentioned types are actually pointers.</Text>
+        <Location left="1690" top="205" />
+        <Size width="263" height="71" />
+      </Entity>
+      <Entity type="Class">
+        <Name>IUartInterface</Name>
+        <Access>Public</Access>
+        <Location left="1582" top="1009" />
+        <Size width="180" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public abstract bool read_byte(uint8_t data)</Member>
+        <Member type="Method">public abstract int available()</Member>
+        <Member type="Method">public abstract uint32_t get_baud_rate()</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Esp32ArduinoUartInterface</Name>
+        <Access>Public</Access>
+        <Location left="1582" top="1188" />
+        <Size width="185" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusData</Name>
+        <Access>Public</Access>
+        <Location left="58" top="814" />
+        <Size width="185" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">protected uint16_t address_ { get; set; }</Member>
+        <Member type="Property">public uint16_t value_ { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusDataPublisher</Name>
+        <Access>Public</Access>
+        <Location left="318" top="662" />
+        <Size width="576" height="129" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public void publish_data(uint8_t device_address, uint8_t function, vector&lt;ModbusData&gt; data)</Member>
+        <Member type="Method">public void add_register_sensor(uint8_t device_address, uint16_t register_address, IModbusRegisterSensor sensor)</Member>
+        <Member type="Method">public void add_binary_sensor(uint8_t device_address, uint16_t register_address, IModbusBinarySensor sensor)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusFrame</Name>
+        <Access>Public</Access>
+        <Location left="1150" top="1252" />
+        <Size width="199" height="145" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">protected uint8_t address_ { get; set; }</Member>
+        <Member type="Property">protected uint8_t function_ { get; set; }</Member>
+        <Member type="Property">protected uint8_t data_ { get; set; }</Member>
+        <Member type="Property">protected uint8_t data_length_ { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusRequestDetector</Name>
+        <Access>Public</Access>
+        <Location left="979" top="1079" />
+        <Size width="244" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusResponseDetector</Name>
+        <Access>Public</Access>
+        <Location left="1256" top="1079" />
+        <Size width="244" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Comment">
+        <Text>Introduce a NextByteReader that both detectors can use?</Text>
+        <Location left="725" top="1197" />
+        <Size width="160" height="75" />
+      </Entity>
+      <Entity type="Class">
+        <Name>IModbusSensor</Name>
+        <Access>Public</Access>
+        <Location left="541" top="177" />
+        <Size width="203" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public abstract void publish_state(uint16_t state)</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusFrameDetectorFactory</Name>
+        <Access>Public</Access>
+        <Location left="1045" top="1441" />
+        <Size width="404" height="162" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">private static IModbusRequestDetector request_detector_ { get; set; }</Member>
+        <Member type="Property">private static IModbusResponseDetector response_detector_ { get; set; }</Member>
+        <Member type="Method">public static void clear_detectors()</Member>
+        <Member type="Method">public static void set_request_detector(IModbusRequestDetector request_detector)</Member>
+        <Member type="Method">public static void set_response_detector(IModbusResponseDetector response_detector)</Member>
+        <Modifier>Static</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>IModbusRequestDetector</Name>
+        <Access>Public</Access>
+        <Location left="1005" top="934" />
+        <Size width="188" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public abstract ModbusFrame detect_request()</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>IModbusResponseDetector</Name>
+        <Access>Public</Access>
+        <Location left="1287" top="934" />
+        <Size width="195" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public abstract ModbusFrame detect_response()</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>IModbusBinarySensor</Name>
+        <Access>Public</Access>
+        <Location left="318" top="177" />
+        <Size width="184" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public abstract void publish_state(bool state)</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+    </Entities>
+    <Containers />
+    <Relationships>
+      <Relationship type="Association" first="0" second="1">
+        <Label>parent_</Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1460</X>
+          <Y>397</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1456</X>
+          <Y>397</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Generalization" first="2" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1581</X>
+          <Y>467</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="3" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1098</X>
+          <Y>518</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1098</X>
+          <Y>469</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Association" first="3" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1314</X>
+          <Y>516</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="3" second="5">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1237</X>
+          <Y>703</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="3" second="6">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>939</X>
+          <Y>571</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>682</X>
+          <Y>485</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="5" second="8">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>941</X>
+          <Y>792</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="3" second="10">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>919</X>
+          <Y>617</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>478</X>
+          <Y>476</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Generalization" first="13" second="12">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="13" second="3">
+        <Label>uart_device_</Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1817</X>
+          <Y>1226</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1593</X>
+          <Y>596</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="5" second="12">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1342</X>
+          <Y>784</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1674</X>
+          <Y>979</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="8" second="14">
+        <Label>splits into</Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="15" second="6">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>629</X>
+          <Y>633</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>629</X>
+          <Y>465</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="15" second="10">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>408</X>
+          <Y>635</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>408</X>
+          <Y>447</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="3" second="15">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1009</X>
+          <Y>707</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>919</X>
+          <Y>706</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="5" second="15">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1124</X>
+          <Y>746</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>945</X>
+          <Y>747</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="18" second="16">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1344</X>
+          <Y>1181</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1288</X>
+          <Y>1227</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="17" second="16">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1161</X>
+          <Y>1181</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1200</X>
+          <Y>1227</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="10" second="9">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="6" second="7">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Generalization" first="6" second="20">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="8" second="16">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1115</X>
+          <Y>1322</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="15" second="14">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>293</X>
+          <Y>714</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>154</X>
+          <Y>789</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Generalization" first="17" second="22">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="18" second="23">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="5" second="22">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1178</X>
+          <Y>865</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1133</X>
+          <Y>909</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="5" second="23">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1292</X>
+          <Y>866</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1335</X>
+          <Y>909</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="5" second="21">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>968</X>
+          <Y>818</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1020</X>
+          <Y>1495</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="21" second="17">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1057</X>
+          <Y>1406</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="21" second="18">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1429</X>
+          <Y>1416</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="17" second="12">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1194</X>
+          <Y>1052</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="18" second="12">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1557</X>
+          <Y>1105</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Generalization" first="10" second="24">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.ClassDiagram" assembly="NClass.DiagramEditor, Version=2.8.0.2, Culture=neutral, PublicKeyToken=null">
+    <Name>FakeUartInterface</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>UARTDevice</Name>
+        <Access>Public</Access>
+        <Location left="1100" top="333" />
+        <Size width="162" height="77" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>UARTComponent</Name>
+        <Access>Public</Access>
+        <Location left="1333" top="333" />
+        <Size width="162" height="77" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>FakeUartInterface</Name>
+        <Access>Public</Access>
+        <Location left="566" top="333" />
+        <Size width="251" height="162" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public bool read_byte(uint8_t data)</Member>
+        <Member type="Method">public int available()</Member>
+        <Member type="Method">public uint32_t get_baud_rate()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Comment">
+        <Text>A FakeUartInterface instance is injected in the software under test for unit testing.</Text>
+        <Location left="852" top="503" />
+        <Size width="210" height="74" />
+      </Entity>
+      <Entity type="Class">
+        <Name>IUartInterface</Name>
+        <Access>Public</Access>
+        <Location left="698" top="110" />
+        <Size width="242" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public abstract bool read_byte(uint8_t data)</Member>
+        <Member type="Method">public abstract int available()</Member>
+        <Member type="Method">public abstract uint32_t get_baud_rate()</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Esp32ArduinoUartInterface</Name>
+        <Access>Public</Access>
+        <Location left="852" top="333" />
+        <Size width="185" height="77" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusSpy</Name>
+        <Access>Public</Access>
+        <Location left="1100" top="503" />
+        <Size width="162" height="77" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Containers />
+    <Relationships>
+      <Relationship type="Association" first="0" second="1">
+        <Label>_parent</Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Comment" first="3" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>922</X>
+          <Y>478</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>842</X>
+          <Y>458</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="6" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="5" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Generalization" first="2" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="5" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.ClassDiagram" assembly="NClass.DiagramEditor, Version=2.8.0.2, Culture=neutral, PublicKeyToken=null">
+    <Name>heap</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>ModbusResponseDetector</Name>
+        <Access>Public</Access>
+        <Location left="1350" top="1080" />
+        <Size width="185" height="111" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public ModbusFrame detect_response(ModbusFrame request)</Member>
+        <Member type="Property">protected IUartInterface uart_interface_ { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusRequestDetector</Name>
+        <Access>Public</Access>
+        <Location left="1350" top="804" />
+        <Size width="172" height="111" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public ModbusFrame detect_request()</Member>
+        <Member type="Property">protected IUartInterface uart_interface_ { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusFrame</Name>
+        <Access>Public</Access>
+        <Location left="1864" top="855" />
+        <Size width="162" height="145" />
+        <Collapsed>True</Collapsed>
+        <Member type="Property">protected uint8_t address_ { get; set; }</Member>
+        <Member type="Property">protected uint8_t function_ { get; set; }</Member>
+        <Member type="Property">protected uint8_t data_ { get; set; }</Member>
+        <Member type="Property">protected uint8_t data_length_ { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusDataPublisher</Name>
+        <Access>Public</Access>
+        <Location left="730" top="616" />
+        <Size width="162" height="111" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public void publish_data(uint8_t function, uint8_t device_address, vector&lt;ModbusData&gt; data)</Member>
+        <Member type="Method">public void add_register_sensor(uint8_t device_address, uint16_t register_address, IModbusRegisterSensor sensor)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusData</Name>
+        <Access>Public</Access>
+        <Location left="1864" top="468" />
+        <Size width="162" height="111" />
+        <Collapsed>True</Collapsed>
+        <Member type="Property">protected uint16_t address_ { get; set; }</Member>
+        <Member type="Property">public uint16_t value_ { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusBinarySensor</Name>
+        <Access>Public</Access>
+        <Location left="637" top="254" />
+        <Size width="162" height="94" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public void publish_state(bool state)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>BinarySensor</Name>
+        <Access>Public</Access>
+        <Location left="424" top="254" />
+        <Size width="162" height="94" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public void publish_state(bool state)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Sensor</Name>
+        <Access>Public</Access>
+        <Location left="1040" top="254" />
+        <Size width="162" height="94" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public void publish_state(float state)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusSensor</Name>
+        <Access>Public</Access>
+        <Location left="826" top="254" />
+        <Size width="162" height="77" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusSniffer</Name>
+        <Access>Public</Access>
+        <Location left="1129" top="635" />
+        <Size width="162" height="111" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public bool start_sniffing()</Member>
+        <Member type="Property">protected IUartInterface uart_interface_ { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Component</Name>
+        <Access>Public</Access>
+        <Location left="1040" top="357" />
+        <Size width="162" height="111" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public void setup()</Member>
+        <Member type="Method">public void loop()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusSpy</Name>
+        <Access>Public</Access>
+        <Location left="1129" top="497" />
+        <Size width="162" height="111" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public ModbusRegisterSensor create_register_sensor(uint16_t address)</Member>
+        <Member type="Method">public ModbusCoilSensor create_coil_sensor(uint16_t address)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>UARTDevice</Name>
+        <Access>Public</Access>
+        <Location left="1228" top="357" />
+        <Size width="162" height="128" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public void write_array()</Member>
+        <Member type="Method">public bool read_byte()</Member>
+        <Member type="Method">public uint16_t available()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusDataSplitter</Name>
+        <Access>Public</Access>
+        <Location left="1350" top="1168" />
+        <Size width="185" height="94" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public vector&lt;ModbusData&gt; split_request_and_response_data(ModbusFrame request, ModbusFrame response)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Comment">
+        <Text>ModbusSniffer deallocates the request and response frames, and the result of the ModbusDataSplitter: the vector of ModbusData*, and the ModbusData instances.</Text>
+        <Location left="1415" top="635" />
+        <Size width="308" height="64" />
+      </Entity>
+      <Entity type="Class">
+        <Name>vector&lt;ModbusData&gt;</Name>
+        <Access>Public</Access>
+        <Location left="1864" top="653" />
+        <Size width="162" height="77" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>uint8_t</Name>
+        <Access>Public</Access>
+        <Location left="1864" top="1008" />
+        <Size width="162" height="77" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Comment">
+        <Text>The detectors create the ModbusFrame.data_ on the heap.
+ModbusFrame deallocates its own data_ from the heap when destroyed.</Text>
+        <Location left="1566" top="960" />
+        <Size width="219" height="75" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>ModbusSpy creates the sensors on the heap, and passes them to ModbusDataPublisher.
+
+ModbusDataPublisher removes them from the heap in its destructor.</Text>
+        <Location left="451" top="469" />
+        <Size width="269" height="90" />
+      </Entity>
+    </Entities>
+    <Containers />
+    <Relationships>
+      <Relationship type="Association" first="9" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1211</X>
+          <Y>705</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1325</X>
+          <Y>1103</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="9" second="1">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1258</X>
+          <Y>705</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1325</X>
+          <Y>828</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="1" second="2">
+        <Label>creates on heap</Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1662</X>
+          <Y>863</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1835</X>
+          <Y>869</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="2">
+        <Label>creates on heap</Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1768</X>
+          <Y>1102</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>2051</X>
+          <Y>866</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="8" second="7">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1013</X>
+          <Y>277</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="5" second="6">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="9" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1103</X>
+          <Y>649</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>917</X>
+          <Y>649</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="11" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1146</X>
+          <Y>596</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>920</X>
+          <Y>627</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="3" second="5">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>751</X>
+          <Y>591</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>751</X>
+          <Y>324</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="3" second="8">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>858</X>
+          <Y>591</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>858</X>
+          <Y>383</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="11" second="5">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1103</X>
+          <Y>532</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>784</X>
+          <Y>324</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="11" second="8">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1104</X>
+          <Y>514</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>938</X>
+          <Y>391</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="11" second="9">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1227</X>
+          <Y>567</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1227</X>
+          <Y>607</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="11" second="12">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1263</X>
+          <Y>472</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Generalization" first="11" second="10">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1171</X>
+          <Y>472</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1117</X>
+          <Y>432</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Association" first="9" second="13">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1165</X>
+          <Y>705</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="15" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="13" second="15">
+        <Label>creates on heap</Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1562</X>
+          <Y>1186</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>2085</X>
+          <Y>694</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="13" second="4">
+        <Label>creates on heap</Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1560</X>
+          <Y>1206</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>2192</X>
+          <Y>518</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="16">
+        <Label>data_</Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Comment" first="14" second="9">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1390</X>
+          <Y>663</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Comment" first="14" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1663</X>
+          <Y>610</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1839</X>
+          <Y>489</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Comment" first="14" second="15">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Comment" first="14" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1709</X>
+          <Y>742</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1960</X>
+          <Y>773</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Comment" first="17" second="1">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1541</X>
+          <Y>981</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1436</X>
+          <Y>874</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Comment" first="17" second="16">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1810</X>
+          <Y>1026</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1839</X>
+          <Y>1026</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Comment" first="17" second="0">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1541</X>
+          <Y>1014</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1492</X>
+          <Y>1055</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Comment" first="17" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1757</X>
+          <Y>935</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1839</X>
+          <Y>884</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Comment" first="18" second="11">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1104</X>
+          <Y>503</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Comment" first="18" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>589</X>
+          <Y>584</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>705</X>
+          <Y>634</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Comment" first="18" second="8">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>699</X>
+          <Y>444</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Comment" first="18" second="5">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>675</X>
+          <Y>444</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>675</X>
+          <Y>324</Y>
+        </BendPoint>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.ClassDiagram" assembly="NClass.DiagramEditor, Version=2.8.0.2, Culture=neutral, PublicKeyToken=null">
+    <Name>Overview</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>ModbusDataPublisher</Name>
+        <Access>Public</Access>
+        <Location left="867" top="584" />
+        <Size width="168" height="128" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public void publish_data(uint8_t device_address, uint8_t function, vector&lt;ModbusData&gt; data)</Member>
+        <Member type="Method">public void add_register_sensor(uint8_t device_address, uint16_t register_address, IModbusRegisterSensor sensor)</Member>
+        <Member type="Method">public void add_binary_sensor(uint8_t device_address, uint16_t register_address, IModbusBinarySensor sensor)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusDataSplitter</Name>
+        <Access>Public</Access>
+        <Location left="867" top="725" />
+        <Size width="168" height="94" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public vector&lt;ModbusData&gt; split_request_and_response_data(ModbusFrame request, ModbusFrame response)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusFrame</Name>
+        <Access>Public</Access>
+        <Location left="1237" top="953" />
+        <Size width="199" height="145" />
+        <Collapsed>True</Collapsed>
+        <Member type="Property">protected uint8_t address_ { get; set; }</Member>
+        <Member type="Property">protected uint8_t function_ { get; set; }</Member>
+        <Member type="Property">protected uint8_t data_ { get; set; }</Member>
+        <Member type="Property">protected uint8_t data_length_ { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusResponseDetector</Name>
+        <Access>Public</Access>
+        <Location left="1348" top="824" />
+        <Size width="181" height="77" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusRequestDetector</Name>
+        <Access>Public</Access>
+        <Location left="1119" top="824" />
+        <Size width="170" height="77" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusSensor</Name>
+        <Access>Public</Access>
+        <Location left="980" top="268" />
+        <Size width="162" height="94" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public Sensor get_sensor()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusBinarySensor</Name>
+        <Access>Public</Access>
+        <Location left="742" top="268" />
+        <Size width="184" height="94" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public BinarySensor get_sensor()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusSpy</Name>
+        <Access>Public</Access>
+        <Location left="1237" top="490" />
+        <Size width="162" height="111" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public ModbusRegisterSensor create_sensor(uint8_t device_address, uint16_t register_address)</Member>
+        <Member type="Method">public BinarySensor create_binary_sensor(uint8_t device_address, uint16_t register_address)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>UARTDevice</Name>
+        <Access>Public</Access>
+        <Location left="1332" top="359" />
+        <Size width="162" height="111" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public bool read_byte()</Member>
+        <Member type="Method">public uint16_t available()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Component</Name>
+        <Access>Public</Access>
+        <Location left="1131" top="359" />
+        <Size width="162" height="111" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public void setup()</Member>
+        <Member type="Method">public void loop()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ModbusSniffer</Name>
+        <Access>Public</Access>
+        <Location left="1237" top="629" />
+        <Size width="163" height="111" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public bool start_sniffing()</Member>
+        <Member type="Method">public void stop_sniffing()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>IUartInterface</Name>
+        <Access>Public</Access>
+        <Location left="1575" top="793" />
+        <Size width="180" height="111" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public abstract bool read_byte(uint8_t data)</Member>
+        <Member type="Method">public abstract int available()</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>BinarySensor</Name>
+        <Access>Public</Access>
+        <Location left="492" top="268" />
+        <Size width="184" height="94" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public void publish_state(bool state)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Sensor</Name>
+        <Access>Public</Access>
+        <Location left="1209" top="268" />
+        <Size width="185" height="94" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">public void publish_state(float state)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Comment">
+        <Text>Component ModbusSpy starts the ModbusSniffer in its setup().
+
+This results in a new Task, in which ModbusSniffer uses a ModbusRequestDetector and ModbusResponseDetector to sniff Modbus request and response pairs.
+
+It gives them to the ModbusDataSplitter to see if they match, and if so it splits the data in the request-response pair into a list of register values (coil values not supported as of yet).
+
+The ModbusSniffer passes this list to the ModbusDataPublisher, which has a list of sensors. The ModbusDataPublisher sees if it can find a sensor for the given device address and register address and if so, publishes the data to that sensor.</Text>
+        <Location left="479" top="584" />
+        <Size width="350" height="205" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>IUartInterface is used to enable unit testing.</Text>
+        <Location left="1529" top="544" />
+        <Size width="160" height="51" />
+      </Entity>
+    </Entities>
+    <Containers />
+    <Relationships>
+      <Relationship type="Association" first="0" second="6">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>880</X>
+          <Y>559</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>832</X>
+          <Y>338</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="5">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1011</X>
+          <Y>559</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1058</X>
+          <Y>338</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="7" second="5">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1212</X>
+          <Y>507</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1110</X>
+          <Y>376</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="7" second="8">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1350</X>
+          <Y>461</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1413</X>
+          <Y>429</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Generalization" first="7" second="9">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1280</X>
+          <Y>465</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1208</X>
+          <Y>434</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Association" first="7" second="10">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1316</X>
+          <Y>564</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="10" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1211</X>
+          <Y>639</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1060</X>
+          <Y>617</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="10" second="1">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1211</X>
+          <Y>661</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1063</X>
+          <Y>748</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="10" second="11">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1429</X>
+          <Y>684</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1667</X>
+          <Y>763</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="3" second="11">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1550</X>
+          <Y>829</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="4" second="11">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1318</X>
+          <Y>819</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1550</X>
+          <Y>802</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="3" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1436</X>
+          <Y>894</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1375</X>
+          <Y>928</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="4" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1204</X>
+          <Y>894</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1287</X>
+          <Y>928</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="1" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1199</X>
+          <Y>977</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="5" second="13">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="6" second="12">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="7" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1262</X>
+          <Y>569</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1072</X>
+          <Y>603</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="7" second="6">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1196</X>
+          <Y>523</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>902</X>
+          <Y>367</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="10" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1283</X>
+          <Y>699</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1205</X>
+          <Y>794</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="10" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1351</X>
+          <Y>699</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1433</X>
+          <Y>793</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>

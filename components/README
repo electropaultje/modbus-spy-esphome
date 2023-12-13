@@ -1,0 +1,11 @@
+
+For a regular PlatformIO project, this directory is intended for project
+specific (private) libraries (and normally called 'lib').
+
+However for this ESPHome integration of the modbus_spy component, it is
+named 'components' so that the ESPHome External Components mechanism can find
+the modbus_spy component inside of it.
+
+Code that is unit tested also resides here of course (it is part of the
+component), and is found automatically by the PlatformIO Library Dependency
+Finder.
