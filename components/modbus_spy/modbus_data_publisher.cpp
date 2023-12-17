@@ -123,7 +123,8 @@ uint16_t ModbusDataPublisher::convert_pdu_address_to_data_model_address(uint8_t 
   // Function 3: add 40001
   uint16_t modbus_data_model_address { 0 };
   switch (function) {
-    case 3: {
+    case 3: [[fallthrough]];
+    case 6: {
       modbus_data_model_address = pdu_address + 40001;
       break;
     }
