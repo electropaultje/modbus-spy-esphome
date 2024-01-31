@@ -1,6 +1,7 @@
 #ifndef UNIT_TEST
 
 #include "esphome/core/log.h"
+#include "esphome/components/esp32/gpio.h"
 
 #include "esp32_arduino_uart_interface.h"
 #include "modbus_binary_sensor.h"
@@ -37,6 +38,13 @@ binary_sensor::BinarySensor* ModbusSpy::create_binary_sensor(
   ModbusBinarySensor *binary_sensor = new ModbusBinarySensor();
   this->data_publisher_.add_binary_sensor(device_address, register_address, bit, binary_sensor);
   return binary_sensor->get_sensor();
+}
+
+void ModbusSpy::set_flow_control_pin(GPIOPin* flow_control_pin) {
+  if (flow_control_pin != nullptr) {
+    flow_control_pin->setup();
+    flow_control_pin->digital_write(false);
+  }
 }
 
 void ModbusSpy::setup() {
