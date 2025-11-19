@@ -14,7 +14,7 @@ CONF_DEVICE_ADDRESS = 'device_address'
 CONF_REGISTER_ADDRESS = 'register_address'
 CONF_BIT = 'bit'
 
-CONFIG_SCHEMA = binary_sensor.BINARY_SENSOR_SCHEMA.extend({
+CONFIG_SCHEMA = binary_sensor.binary_sensor_schema().extend({
     cv.GenerateID(CONF_MODBUS_SPY_ID): cv.use_id(ModbusSpy),
     cv.Required(CONF_DEVICE_ADDRESS): int,
     cv.Required(CONF_REGISTER_ADDRESS): int,

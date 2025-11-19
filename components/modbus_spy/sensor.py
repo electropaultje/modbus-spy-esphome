@@ -13,7 +13,7 @@ CONF_MODBUS_SPY_ID = 'modbus_spy_id'
 CONF_DEVICE_ADDRESS = 'device_address'
 CONF_REGISTER_ADDRESS = 'register_address'
 
-CONFIG_SCHEMA = sensor.SENSOR_SCHEMA.extend({
+CONFIG_SCHEMA = sensor.sensor_schema().extend({
     cv.GenerateID(CONF_MODBUS_SPY_ID): cv.use_id(ModbusSpy),
     cv.Required(CONF_DEVICE_ADDRESS): int,
     cv.Required(CONF_REGISTER_ADDRESS): int
