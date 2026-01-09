@@ -1,6 +1,5 @@
 #include <vector>
 
-#include <Arduino.h>
 #ifdef UNIT_TEST
 #include <test_includes.h>
 #else
@@ -49,7 +48,7 @@ void ModbusSniffer::start_sniffing() {
 void ModbusSniffer::stop_sniffing() {
   this->should_stop_sniffing_ = true;
   while (this->is_sniffing_) {
-    delay(1);
+    vTaskDelay(pdMS_TO_TICKS(1));
   }
 }
 
@@ -69,7 +68,7 @@ void ModbusSniffer::sniff_loop_task(void* params) {
       vTaskDelete(NULL);
       break;
     }
-    delay(5);
+    vTaskDelay(pdMS_TO_TICKS(5));
 
     ModbusFrame *request_frame = request_detector->detect_request();
     if (nullptr == request_frame) {

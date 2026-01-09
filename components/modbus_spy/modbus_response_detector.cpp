@@ -1,10 +1,13 @@
 #include <cmath>
 
-#include <Arduino.h>
 #ifndef UNIT_TEST
 #include "esphome/core/helpers.h"
 #include "esphome/core/log.h"
 #endif
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
+#include "esp_timer.h"
+#include <rom/ets_sys.h>
 
 #include "modbus_response_detector.h"
 
@@ -42,14 +45,14 @@ ModbusFrame* ModbusResponseDetector::detect_response() {
 	//  	○ If so, it is a response. If not, it is not a response.
   //  If other function:
   //  	○ Return nothing. Unsupported for now.
-  uint32_t time_before_waiting_for_response = millis();
+  uint32_t time_before_waiting_for_response = pdTICKS_TO_MS(xTaskGetTickCount());
   while (this->uart_interface_->available() == 0) {
-    delayMicroseconds(50);
-    if (millis() - time_before_waiting_for_response >= MAX_TIME_BETWEEN_REQUEST_AND_RESPONSE_IN_MS) {
+    esp_rom_delay_us(50);
+    if (pdTICKS_TO_MS(xTaskGetTickCount()) - time_before_waiting_for_response >= MAX_TIME_BETWEEN_REQUEST_AND_RESPONSE_IN_MS) {
       return nullptr;
     }
   }
-  this->time_last_byte_received_ = micros();
+  this->time_last_byte_received_ = esp_timer_get_time();
   uint8_t address { 0 };
   if (!read_next_byte(&address)) {
     return nullptr;
@@ -146,8 +149,8 @@ bool ModbusResponseDetector::read_next_byte(uint8_t* byte) {
     // Next byte didn't arrive yet. Wait for it, with a timeout.
     bool waiting_too_long { false };
     do {
-      delayMicroseconds(100);
-      waiting_too_long = (micros() - this->time_last_byte_received_) > this->max_time_between_bytes_in_us_;
+      esp_rom_delay_us(100);
+      waiting_too_long = (esp_timer_get_time() - this->time_last_byte_received_) > this->max_time_between_bytes_in_us_;
     } while ((this->uart_interface_->available() == 0) && !waiting_too_long);
     if (this->uart_interface_->available() == 0) {
       // Still nothing after waiting, so no byte in time...
@@ -156,7 +159,7 @@ bool ModbusResponseDetector::read_next_byte(uint8_t* byte) {
   }
   bool is_byte_received = this->uart_interface_->read_byte(byte);
   if (is_byte_received) {
-    this->time_last_byte_received_ = micros();
+    this->time_last_byte_received_ = esp_timer_get_time();
   }
   return is_byte_received;
 }
