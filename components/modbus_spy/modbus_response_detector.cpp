@@ -24,10 +24,10 @@ ModbusResponseDetector::ModbusResponseDetector(IUartInterface* uart_interface) :
     constexpr uint8_t bits_per_byte = 11;
     const float us_per_byte = bits_per_byte * us_per_bit;
     this->max_time_between_bytes_in_us_ = static_cast<uint16_t>(round(1.5 * us_per_byte));
-    ESP_LOGI(TAG, "Baud rate (<= 19200): %u, Max time between bytes set to %u us", baud_rate, this->max_time_between_bytes_in_us_);
+    ESP_LOGD(TAG, "Baud rate (<= 19200): %u, Max time between bytes set to %u us", baud_rate, this->max_time_between_bytes_in_us_);
   } else {
     this->max_time_between_bytes_in_us_ = MIN_TIMEOUT_BETWEEN_BYTES_IN_US;
-    ESP_LOGI(TAG, "Baud rate (> 19200): %u, Max time between bytes set to %u us", baud_rate, this->max_time_between_bytes_in_us_);
+    ESP_LOGD(TAG, "Baud rate (> 19200): %u, Max time between bytes set to %u us", baud_rate, this->max_time_between_bytes_in_us_);
   }
 }
 
@@ -51,25 +51,25 @@ ModbusFrame* ModbusResponseDetector::detect_response() {
   while (this->uart_interface_->available() == 0) {
     esp_rom_delay_us(50);
     if (pdTICKS_TO_MS(xTaskGetTickCount()) - time_before_waiting_for_response >= MAX_TIME_BETWEEN_REQUEST_AND_RESPONSE_IN_MS) {
-      ESP_LOGI(TAG, "Timeout waiting for response");
+      ESP_LOGD(TAG, "Timeout waiting for response");
       return nullptr;
     }
   }
   this->time_last_byte_received_ = esp_timer_get_time();
   uint8_t address { 0 };
   if (!read_next_byte(&address)) {
-    ESP_LOGI(TAG, "Failed to read address");
+    ESP_LOGD(TAG, "Failed to read address");
     return nullptr;
   }
   uint8_t function { 0 };
   if (!read_next_byte(&function)) {
-    ESP_LOGI(TAG, "Failed to read function");
+    ESP_LOGD(TAG, "Failed to read function");
     return nullptr;
   }
   if ((function >= 1) && (function <= 4)) {
     uint8_t byte_count { 0 };
     if (!read_next_byte(&byte_count)) {
-      ESP_LOGI(TAG, "Failed to read byte count");
+      ESP_LOGD(TAG, "Failed to read byte count");
       return nullptr;
     }
     uint8_t *crc_data = new uint8_t[byte_count + 3];
@@ -78,27 +78,27 @@ ModbusFrame* ModbusResponseDetector::detect_response() {
     crc_data[2] = byte_count;
     for (uint8_t i { 0 }; i < byte_count; ++i) {
       if (!read_next_byte(&crc_data[i + 3])) {
-        ESP_LOGI(TAG, "Failed to read data byte %u", i);
+        ESP_LOGD(TAG, "Failed to read data byte %u", i);
         delete[] crc_data;
         return nullptr;
       }
     }
     uint8_t crc_low_byte { 0x00 };
     if (!read_next_byte(&crc_low_byte)) {
-      ESP_LOGI(TAG, "Failed to read CRC low byte");
+      ESP_LOGD(TAG, "Failed to read CRC low byte");
       delete[] crc_data;
       return nullptr;
     }
     uint8_t crc_high_byte { 0x00 };
     if (!read_next_byte(&crc_high_byte)) {
-      ESP_LOGI(TAG, "Failed to read CRC high byte");
+      ESP_LOGD(TAG, "Failed to read CRC high byte");
       delete[] crc_data;
       return nullptr;
     }
     uint16_t calculated_crc = crc16(crc_data, byte_count + 3);
     uint16_t received_crc = crc_low_byte | (crc_high_byte << 8);
     if (calculated_crc != received_crc) {
-      ESP_LOGI(TAG, "CRC mismatch: calculated 0x%04X, received 0x%04X", calculated_crc, received_crc);
+      ESP_LOGD(TAG, "CRC mismatch: calculated 0x%04X, received 0x%04X", calculated_crc, received_crc);
       delete[] crc_data;
       return nullptr;
     }
@@ -112,7 +112,7 @@ ModbusFrame* ModbusResponseDetector::detect_response() {
     ModbusFrame *response_frame = new ModbusFrame(address, function, data, byte_count + 1);
     return response_frame;
   } else if ((function == 5) || (function == 6) || (function == 15) || (function == 16)) {
-    ESP_LOGI(TAG, "Function %u detected, reading response", function);
+    ESP_LOGD(TAG, "Function %u detected, reading response", function);
     uint8_t *crc_data = new uint8_t[6];
     crc_data[0] = address;
     crc_data[1] = function;
@@ -148,7 +148,7 @@ ModbusFrame* ModbusResponseDetector::detect_response() {
     return response_frame;
   } else {
     // Unsupported function!
-    ESP_LOGI(TAG, "Unsupported function %u", function);
+    ESP_LOGD(TAG, "Unsupported function %u", function);
     return nullptr;
   }
 

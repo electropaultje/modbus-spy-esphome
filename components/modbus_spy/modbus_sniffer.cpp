@@ -75,14 +75,18 @@ void ModbusSniffer::sniff_loop_task(void* params) {
       modbus_sniffer->empty_rx_buffer();
       continue;
     }
-    ESP_LOGI(TAG, "Detected Modbus request: address=0x%02X, function=0x%02X, data_length=%d",
+    ESP_LOGD(TAG, "Detected Modbus request: address=0x%02X, function=0x%02X, data_length=%d",
              request_frame->get_address(), request_frame->get_function(), request_frame->get_data_length());
+    if (request_frame->get_function() == 3) {
+      ESP_LOGD(TAG, "  Starting Address: %d", (request_frame->get_data()[0] << 8) | request_frame->get_data()[1]);
+      ESP_LOGD(TAG, "  Quantity of Registers: %d", (request_frame->get_data()[2] << 8) | request_frame->get_data()[3]);      
+    }
 
     ModbusFrame *response_frame = response_detector->detect_response();
     if (nullptr == response_frame) {
       delete request_frame;
       modbus_sniffer->empty_rx_buffer();
-      ESP_LOGI(TAG, "No response detected, discarding detected request");
+      ESP_LOGD(TAG, "No response detected, discarding detected request");
       continue;
     }
     vector<ModbusData*> *split_data = data_splitter.split_request_and_response_data(request_frame, response_frame);
@@ -90,7 +94,7 @@ void ModbusSniffer::sniff_loop_task(void* params) {
       delete request_frame;
       delete response_frame;
       modbus_sniffer->empty_rx_buffer();
-      ESP_LOGI(TAG, "Could not split request/response data, discarding detected request and response");
+      ESP_LOGD(TAG, "Could not split request/response data, discarding detected request and response");
       continue;
     }
     uint8_t device_address = request_frame->get_address();
