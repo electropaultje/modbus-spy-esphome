@@ -110,14 +110,6 @@ vector<ModbusData*>* ModbusDataSplitter::handle_function_6(ModbusFrame* request,
 
   uint16_t data_model_address = 40001 + address;
 
-  ESP_LOGI(
-    TAG, 
-    "Client requests server 0x%02X to set register %d to value %d", 
-    request->get_address(), 
-    data_model_address, 
-    value
-  );
-
   vector<ModbusData*> *split_data = new vector<ModbusData*>;
   ModbusData *modbus_data = new ModbusData;
   modbus_data->address = address;
