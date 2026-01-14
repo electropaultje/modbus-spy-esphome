@@ -19,8 +19,9 @@ vector<ModbusData*>* ModbusDataSplitter::split_request_and_response_data(ModbusF
     return nullptr;
   }
   switch (request->get_function()) {
-    case 3: {
-      split_data = handle_function_3(request, response);
+    case 3: [[fallthrough]];
+    case 4: {
+      split_data = handle_function_3_and_4(request, response);
       break;
     }
     case 6: {
@@ -48,9 +49,9 @@ bool ModbusDataSplitter::address_and_function_match(ModbusFrame* request, Modbus
   return true;
 }
 
-vector<ModbusData*>* ModbusDataSplitter::handle_function_3(ModbusFrame* request, ModbusFrame* response) {
+vector<ModbusData*>* ModbusDataSplitter::handle_function_3_and_4(ModbusFrame* request, ModbusFrame* response) {
   if (request->get_data_length() != 4) {
-    ESP_LOGD(TAG, "Request data length for function 3 is not 4, but %d", request->get_data_length());
+    ESP_LOGD(TAG, "Request data length for function 3/4 is not 4, but %d", request->get_data_length());
     return nullptr;
   }
   // Check if the response contains the expected amount of data
@@ -66,7 +67,7 @@ vector<ModbusData*>* ModbusDataSplitter::handle_function_3(ModbusFrame* request,
 
   uint16_t expected_bytes_in_response = register_count_requested * 2 + 1;
   if (response->get_data_length() != expected_bytes_in_response) {
-    ESP_LOGD(TAG, "Response data length for function 3 does not match expected length: expected %d, got %d",
+    ESP_LOGD(TAG, "Response data length for function 3/4 does not match expected length: expected %d, got %d",
              expected_bytes_in_response, response->get_data_length());
     return nullptr;
   }
