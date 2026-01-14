@@ -122,8 +122,6 @@ vector<ModbusData*>* ModbusDataSplitter::handle_function_6(ModbusFrame* request,
   modbus_data->value = value;
   split_data->push_back(modbus_data);
 
-  ESP_LOGD(TAG, "Function 6: For device address 0x%02X, set register %d to value %d", request->get_address(), data_model_address, value);
-
   return split_data;
 }
 
