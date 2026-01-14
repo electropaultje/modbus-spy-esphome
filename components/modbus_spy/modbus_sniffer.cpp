@@ -1,6 +1,5 @@
 #include <vector>
 
-#include <Arduino.h>
 #ifdef UNIT_TEST
 #include <test_includes.h>
 #else
@@ -42,14 +41,14 @@ void ModbusSniffer::start_sniffing() {
                               this,         // input params
                               1,            // priority
                               nullptr,      // Handle, not needed
-                              0             // core
+                              1             // core
   );
 }
 
 void ModbusSniffer::stop_sniffing() {
   this->should_stop_sniffing_ = true;
   while (this->is_sniffing_) {
-    delay(1);
+    vTaskDelay(pdMS_TO_TICKS(1));
   }
 }
 
@@ -60,6 +59,14 @@ void ModbusSniffer::sniff_loop_task(void* params) {
   IModbusResponseDetector *response_detector =
     ModbusFrameDetectorFactory::create_response_detector(modbus_sniffer->uart_interface_);
   ModbusDataSplitter data_splitter;
+
+  #if ESPHOME_LOG_LEVEL >= ESPHOME_LOG_LEVEL_DEBUG
+
+  uint32_t time_at_last_alive_logging = pdTICKS_TO_MS(xTaskGetTickCount());
+  constexpr uint32_t ALIVE_LOG_INTERVAL_MS = 30000;
+
+  #endif // ESPHOME_LOG_LEVEL >= ESPHOME_LOG_LEVEL_DEBUG
+
   while (true) {
     if (modbus_sniffer->should_stop_sniffing_) {
       ModbusFrameDetectorFactory::clear_detectors();
@@ -69,17 +76,34 @@ void ModbusSniffer::sniff_loop_task(void* params) {
       vTaskDelete(NULL);
       break;
     }
-    delay(5);
+    vTaskDelay(pdMS_TO_TICKS(5));
+
+    #if ESPHOME_LOG_LEVEL >= ESPHOME_LOG_LEVEL_DEBUG
+
+    if (pdTICKS_TO_MS(xTaskGetTickCount()) - time_at_last_alive_logging >= ALIVE_LOG_INTERVAL_MS) {
+      ESP_LOGD(TAG, "ModbusSniffer is alive");
+      time_at_last_alive_logging = pdTICKS_TO_MS(xTaskGetTickCount());
+    }
+
+    #endif // ESPHOME_LOG_LEVEL >= ESPHOME_LOG_LEVEL_DEBUG
 
     ModbusFrame *request_frame = request_detector->detect_request();
     if (nullptr == request_frame) {
       modbus_sniffer->empty_rx_buffer();
       continue;
     }
+    ESP_LOGD(TAG, "Detected Modbus request: address=0x%02X, function=0x%02X, data_length=%d",
+             request_frame->get_address(), request_frame->get_function(), request_frame->get_data_length());
+    if (request_frame->get_function() == 3) {
+      ESP_LOGD(TAG, "  Starting Address: %d", (request_frame->get_data()[0] << 8) | request_frame->get_data()[1]);
+      ESP_LOGD(TAG, "  Quantity of Registers: %d", (request_frame->get_data()[2] << 8) | request_frame->get_data()[3]);      
+    }
+
     ModbusFrame *response_frame = response_detector->detect_response();
     if (nullptr == response_frame) {
       delete request_frame;
       modbus_sniffer->empty_rx_buffer();
+      ESP_LOGD(TAG, "No response detected, discarding detected request");
       continue;
     }
     vector<ModbusData*> *split_data = data_splitter.split_request_and_response_data(request_frame, response_frame);
@@ -87,6 +111,7 @@ void ModbusSniffer::sniff_loop_task(void* params) {
       delete request_frame;
       delete response_frame;
       modbus_sniffer->empty_rx_buffer();
+      ESP_LOGD(TAG, "Could not split request/response data, discarding detected request and response");
       continue;
     }
     uint8_t device_address = request_frame->get_address();

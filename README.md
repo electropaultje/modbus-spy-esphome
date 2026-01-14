@@ -50,6 +50,8 @@ uart:
   baud_rate: 19200
   rx_pin: 32
   parity: ODD
+  rx_full_threshold: 1
+  rx_timeout: 1
 
 modbus_spy:
   id: modbusspy
@@ -97,5 +99,6 @@ This is done because Itho Daalderop defined it like that, probably so that a wid
 Note that this is just an example and it is required to put suitable filters in as needed.
 
 # More info
+
 
 For more information, look at [more-info.md](more-info.md)
