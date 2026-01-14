@@ -28,7 +28,7 @@ vector<ModbusData*>* ModbusDataSplitter::split_request_and_response_data(ModbusF
       break;
     }
     default:
-      ESP_LOGI(TAG, "Unsupported Modbus function: %d", request->get_function());
+      ESP_LOGD(TAG, "Unsupported Modbus function: %d", request->get_function());
       break;
   }
 
