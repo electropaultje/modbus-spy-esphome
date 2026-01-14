@@ -41,7 +41,7 @@ void ModbusSniffer::start_sniffing() {
                               this,         // input params
                               1,            // priority
                               nullptr,      // Handle, not needed
-                              0             // core
+                              1             // core
   );
 }
 
@@ -59,6 +59,14 @@ void ModbusSniffer::sniff_loop_task(void* params) {
   IModbusResponseDetector *response_detector =
     ModbusFrameDetectorFactory::create_response_detector(modbus_sniffer->uart_interface_);
   ModbusDataSplitter data_splitter;
+
+  #if ESPHOME_LOG_LEVEL >= ESPHOME_LOG_LEVEL_DEBUG
+
+  uint32_t time_at_last_alive_logging = pdTICKS_TO_MS(xTaskGetTickCount());
+  constexpr uint32_t ALIVE_LOG_INTERVAL_MS = 30000;
+
+  #endif // ESPHOME_LOG_LEVEL >= ESPHOME_LOG_LEVEL_DEBUG
+
   while (true) {
     if (modbus_sniffer->should_stop_sniffing_) {
       ModbusFrameDetectorFactory::clear_detectors();
@@ -69,6 +77,15 @@ void ModbusSniffer::sniff_loop_task(void* params) {
       break;
     }
     vTaskDelay(pdMS_TO_TICKS(5));
+
+    #if ESPHOME_LOG_LEVEL >= ESPHOME_LOG_LEVEL_DEBUG
+
+    if (pdTICKS_TO_MS(xTaskGetTickCount()) - time_at_last_alive_logging >= ALIVE_LOG_INTERVAL_MS) {
+      ESP_LOGD(TAG, "ModbusSniffer is alive");
+      time_at_last_alive_logging = pdTICKS_TO_MS(xTaskGetTickCount());
+    }
+
+    #endif // ESPHOME_LOG_LEVEL >= ESPHOME_LOG_LEVEL_DEBUG
 
     ModbusFrame *request_frame = request_detector->detect_request();
     if (nullptr == request_frame) {

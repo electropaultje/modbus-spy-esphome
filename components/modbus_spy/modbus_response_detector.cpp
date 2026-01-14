@@ -161,7 +161,8 @@ bool ModbusResponseDetector::read_next_byte(uint8_t* byte) {
     bool waiting_too_long { false };
     do {
       esp_rom_delay_us(100);
-      waiting_too_long = (esp_timer_get_time() - this->time_last_byte_received_) > this->max_time_between_bytes_in_us_;
+      int64_t elapsed_time = esp_timer_get_time() - this->time_last_byte_received_;
+      waiting_too_long = (elapsed_time > 0) && (static_cast<uint64_t>(elapsed_time) > this->max_time_between_bytes_in_us_);
     } while ((this->uart_interface_->available() == 0) && !waiting_too_long);
     if (this->uart_interface_->available() == 0) {
       // Still nothing after waiting, so no byte in time...
