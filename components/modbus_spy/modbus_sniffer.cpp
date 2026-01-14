@@ -41,7 +41,7 @@ void ModbusSniffer::start_sniffing() {
                               this,         // input params
                               1,            // priority
                               nullptr,      // Handle, not needed
-                              0             // core
+                              1             // core
   );
 }
 
