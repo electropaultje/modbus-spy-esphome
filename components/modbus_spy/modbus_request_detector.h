@@ -34,7 +34,7 @@ class ModbusRequestDetector : public IModbusRequestDetector {
 
  protected:
   IUartInterface* uart_interface_ { nullptr };
-  uint32_t time_last_byte_received_ { 0 };
+  int64_t time_last_byte_received_ { 0 };
   uint16_t max_time_between_bytes_in_us_ { 860 };
 
  private:
