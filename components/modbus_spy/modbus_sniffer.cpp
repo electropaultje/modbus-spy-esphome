@@ -59,8 +59,9 @@ void ModbusSniffer::sniff_loop_task(void* params) {
   IModbusResponseDetector *response_detector =
     ModbusFrameDetectorFactory::create_response_detector(modbus_sniffer->uart_interface_);
   ModbusDataSplitter data_splitter;
-  uint8_t log_alive_counter { 0 };
-  constexpr uint8_t LOG_ALIVE_INTERVAL = 200;
+
+  uint32_t time_at_last_alive_logging = pdTICKS_TO_MS(xTaskGetTickCount());
+
   while (true) {
     if (modbus_sniffer->should_stop_sniffing_) {
       ModbusFrameDetectorFactory::clear_detectors();
@@ -72,9 +73,9 @@ void ModbusSniffer::sniff_loop_task(void* params) {
     }
     vTaskDelay(pdMS_TO_TICKS(5));
 
-    if (++log_alive_counter >= LOG_ALIVE_INTERVAL) {
+    if (pdTICKS_TO_MS(xTaskGetTickCount()) - time_at_last_alive_logging >= 2000) {
       ESP_LOGI(TAG, "ModbusSniffer is alive");
-      log_alive_counter = 0;
+      time_at_last_alive_logging = pdTICKS_TO_MS(xTaskGetTickCount());
     }
 
     ModbusFrame *request_frame = request_detector->detect_request();
