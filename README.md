@@ -19,7 +19,7 @@ These sensors are fully configurable in the YAML.
 First of all, some hardware is required. In principle this component works on an ESP32 that has a UART RX connected to the Modbus hardware (e.g. using an RS-485 transceiver chip / module).
 
 #### Ready-to-use Hardware
-I have designed a PCB that needs to be powered using a micro USB B connector.  
+I have designed a PCB that needs to be powered using a USB-C connector.  
 The board can be connected to the bus using a detachable screw terminal (one part of the connector sits on the PCB, the bus wires are fastened with screws in the other part). An ESP32 WROVER module is part of the PCB, and takes care of the ESPHome integration.
 
 I have a few of these boards available, and can produce more on demand for a fair price.
@@ -102,3 +102,4 @@ Note that this is just an example and it is required to put suitable filters in 
 
 
 For more information, look at [more-info.md](more-info.md)
+
