@@ -114,7 +114,7 @@ ModbusDataPublisher::DeviceSensors* ModbusDataPublisher::get_sensors_for_device(
 void ModbusDataPublisher::publish_data(uint8_t device_address, uint8_t function, std::vector<ModbusData*>* data) {
   for (ModbusData* modbus_data : *data) {
     uint16_t data_model_register_address = convert_pdu_address_to_data_model_address(function, modbus_data->address);
-    find_sensor_and_publish_data(device_address, data_model_register_address, modbus_data->value);
+    find_sensor_and_publish_data(device_address, function, data_model_register_address, modbus_data->value);
   }
 }
 
@@ -138,7 +138,12 @@ uint16_t ModbusDataPublisher::convert_pdu_address_to_data_model_address(uint8_t 
   return modbus_data_model_address;
 }
 
-void ModbusDataPublisher::find_sensor_and_publish_data(uint8_t device_address, uint16_t data_model_register_address, uint16_t value) {
+void ModbusDataPublisher::find_sensor_and_publish_data(
+  uint8_t device_address,
+  uint8_t function, 
+  uint16_t data_model_register_address, 
+  uint16_t value
+) {
   ESP_LOGD(TAG, "Finding sensor for register address %d, to publish value %d", data_model_register_address, value);
   bool found_a_sensor { false };
   IModbusRegisterSensor *register_sensor = find_register_sensor(device_address, data_model_register_address);
@@ -169,7 +174,11 @@ void ModbusDataPublisher::find_sensor_and_publish_data(uint8_t device_address, u
   }
 
   if (!found_a_sensor && this->should_dump_not_configured_data_) {
-    ESP_LOGI(TAG, "No sensor for: device 0x%02X, data model address %d, value %d", device_address, data_model_register_address, value);
+    ESP_LOGI(
+      TAG, 
+      "No sensor for: device 0x%02X, function %d, data model address %d, value %d", 
+      device_address, function, data_model_register_address, value
+    );
   }
 }
 

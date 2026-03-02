@@ -55,7 +55,7 @@ class ModbusDataPublisher : public IModbusDataPublisher {
 
  private:
   uint16_t convert_pdu_address_to_data_model_address(uint8_t function, uint16_t pdu_address);
-  void find_sensor_and_publish_data(uint8_t device_address, uint16_t data_model_register_address, uint16_t value);
+  void find_sensor_and_publish_data(uint8_t device_address, uint8_t function, uint16_t data_model_register_address, uint16_t value);
   std::map<uint16_t, IModbusRegisterSensor*>* get_register_sensors_for_device(uint8_t device_address);
   std::map<uint16_t, IModbusBinarySensor*>* get_binary_sensors_full_register_for_device(uint8_t device_address);
   std::map<uint16_t, IModbusBinarySensor**>* get_binary_sensors_bit_for_device(uint8_t device_address);
