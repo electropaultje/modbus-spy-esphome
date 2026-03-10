@@ -142,6 +142,8 @@ vector<ModbusData*>* ModbusDataSplitter::handle_function_16(ModbusFrame* request
   uint8_t address_low_byte = request_data[1];
   uint16_t address = (address_high_byte << 8) | address_low_byte;
 
+   ESP_LOGD(TAG, "function 16 address %x", address);
+
   uint8_t length_high_byte = request_data[2];
   uint8_t length_low_byte = request_data[3];
   uint16_t length = (length_high_byte << 8) | length_low_byte;
