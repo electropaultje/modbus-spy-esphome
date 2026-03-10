@@ -164,7 +164,7 @@ vector<ModbusData*>* ModbusDataSplitter::handle_function_16(ModbusFrame* request
   uint8_t value_low_byte = request_data[6];
   uint16_t value = (value_high_byte << 8) | value_low_byte;
 */
-  uint16_t data_model_address = 40001 + address;
+  uint16_t data_model_address = 40001 + start_address;
 
   vector<ModbusData*> *split_data = new vector<ModbusData*>;
   for (uint8_t i = 0; i < register_count_requested; ++i) {
