@@ -28,6 +28,10 @@ vector<ModbusData*>* ModbusDataSplitter::split_request_and_response_data(ModbusF
       split_data = handle_function_6(request, response);
       break;
     }
+    case 16: {
+      split_data = handle_function_16(request, response);
+      break;
+    }
     default:
       ESP_LOGD(TAG, "Unsupported Modbus function: %d", request->get_function());
       break;
@@ -125,6 +129,51 @@ vector<ModbusData*>* ModbusDataSplitter::handle_function_6(ModbusFrame* request,
 
   return split_data;
 }
+
+vector<ModbusData*>* ModbusDataSplitter::handle_function_16(ModbusFrame* request, ModbusFrame* response) {
+  if ((request->get_data_length() != 4)) {
+    ESP_LOGD(TAG, "Request data length for function 16 is not 4, but %d", request->get_data_length());
+    return nullptr;
+  }
+  // No repsonse with data for FC 16 
+
+  // Passed all tests! Let's get the register's address, and the value set in it
+  uint8_t address_high_byte = request_data[0];
+  uint8_t address_low_byte = request_data[1];
+  uint16_t address = (address_high_byte << 8) | address_low_byte;
+
+  uint8_t length_high_byte = request_data[2];
+  uint8_t length_low_byte = request_data[3];
+  uint16_t length = (length_high_byte << 8) | length_low_byte;
+  
+  if (length != 1)
+  {
+    ESP_LOGD(TAG, "Number of registers for function 16 is not 1, but %d", length);
+    return nullptr;
+  }
+
+  uint8_t bytes = request_data[4];
+  if (butes != 2)
+  {
+    ESP_LOGD(TAG, "Number of bytes for function 16 is not 2, but %d", bytes);
+    return nullptr;
+  }
+
+  uint8_t value_high_byte = request_data[5];
+  uint8_t value_low_byte = request_data[6];
+  uint16_t value = (value_high_byte << 8) | value_low_byte;
+
+  uint16_t data_model_address = 40001 + address;
+
+  vector<ModbusData*> *split_data = new vector<ModbusData*>;
+  ModbusData *modbus_data = new ModbusData;
+  modbus_data->address = address;
+  modbus_data->value = value;
+  split_data->push_back(modbus_data);
+
+  return split_data;
+}
+
 
 } //namespace modbus_spy
 } //namespace esphome
