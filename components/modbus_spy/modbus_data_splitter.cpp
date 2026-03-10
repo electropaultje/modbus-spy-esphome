@@ -153,7 +153,7 @@ vector<ModbusData*>* ModbusDataSplitter::handle_function_16(ModbusFrame* request
   }
 
   uint8_t bytes = request_data[4];
-  if (butes != 2)
+  if (bystes != 2)
   {
     ESP_LOGD(TAG, "Number of bytes for function 16 is not 2, but %d", bytes);
     return nullptr;
