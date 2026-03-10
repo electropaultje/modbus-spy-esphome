@@ -537,6 +537,7 @@ int runUnityTests(void) {
 
   RUN_TEST(test_modbus_response_detector_response_function_1);
   RUN_TEST(test_modbus_response_detector_response_function_6);
+  RUN_TEST(test_modbus_response_detector_response_function_16);
 
   // CRC generation tool :P
   // RUN_TEST(generate_crc);

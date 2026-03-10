@@ -544,6 +544,7 @@ int runUnityTests(void) {
   RUN_TEST(test_modbus_request_detector_request_function_3_bytes_coming_in_live_lower_baud_rate);
   RUN_TEST(test_modbus_request_detector_response_function_3_results_in_nullptr);
   RUN_TEST(test_modbus_request_detector_request_function_15);
+  RUN_TEST(test_modbus_request_detector_request_function_16);
   RUN_TEST(test_modbus_request_detector_unsupported_function_results_in_nullptr);
 
   // CRC generation tool :P
