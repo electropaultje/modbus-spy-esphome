@@ -131,8 +131,8 @@ vector<ModbusData*>* ModbusDataSplitter::handle_function_6(ModbusFrame* request,
 }
 
 vector<ModbusData*>* ModbusDataSplitter::handle_function_16(ModbusFrame* request, ModbusFrame* response) {
-  if ((request->get_data_length() != 4)) {
-    ESP_LOGD(TAG, "Request data length for function 16 is not 4, but %d", request->get_data_length());
+  if ((request->get_data_length() != 7)) {
+    ESP_LOGD(TAG, "Request data length for function 16 is not 7, but %d", request->get_data_length());
     return nullptr;
   }
   // No repsonse with data for FC 16 
