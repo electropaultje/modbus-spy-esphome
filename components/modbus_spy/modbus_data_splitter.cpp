@@ -136,7 +136,7 @@ vector<ModbusData*>* ModbusDataSplitter::handle_function_16(ModbusFrame* request
     return nullptr;
   }
   // No repsonse with data for FC 16 
-
+  uint8_t *request_data = request->get_data();
   // Passed all tests! Let's get the register's address, and the value set in it
   uint8_t address_high_byte = request_data[0];
   uint8_t address_low_byte = request_data[1];
