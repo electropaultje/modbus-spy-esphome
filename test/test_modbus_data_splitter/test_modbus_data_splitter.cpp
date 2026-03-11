@@ -175,6 +175,81 @@ void test_matching_pair_function_16_with_two_holding_registers() {
   TEST_ASSERT_EQUAL_UINT16(0x0B02, data1->value);
 }
 
+void test_incorrect_byte_count_in_request_data_function_16_results_in_nullptr() {
+  // Arrange
+  ModbusDataSplitter data_splitter;
+  uint8_t *request_data = new uint8_t[11] { 0x07, 0xCF, 0x00, 0x02, 0x06, 0x0A, 0x01, 0x0B, 0x02, 0x0C, 0x03 };
+  ModbusFrame request(0x01, 16, request_data, 11);
+  uint8_t *response_data = new uint8_t[4] { 0x07, 0xCF, 0x00, 0x02 };
+  ModbusFrame response(0x01, 16, response_data, 4);
+
+  // Act
+  vector<ModbusData*>* split_data = data_splitter.split_request_and_response_data(&request, &response);
+
+  // Assert
+  TEST_ASSERT_TRUE(split_data == nullptr);
+}
+
+void test_incorrect_data_length_in_request_data_function_16_results_in_nullptr() {
+  // Arrange
+  ModbusDataSplitter data_splitter;
+  uint8_t *request_data = new uint8_t[11] { 0x07, 0xCF, 0x00, 0x02, 0x04, 0x0A, 0x01, 0x0B, 0x02, 0x0C, 0x03 };
+  ModbusFrame request(0x01, 16, request_data, 11);
+  uint8_t *response_data = new uint8_t[4] { 0x07, 0xCF, 0x00, 0x02 };
+  ModbusFrame response(0x01, 16, response_data, 4);
+
+  // Act
+  vector<ModbusData*>* split_data = data_splitter.split_request_and_response_data(&request, &response);
+
+  // Assert
+  TEST_ASSERT_TRUE(split_data == nullptr);
+}
+
+void test_incorrect_data_length_in_response_function_16_results_in_nullptr() {
+  // Arrange
+  ModbusDataSplitter data_splitter;
+  uint8_t *request_data = new uint8_t[9] { 0x07, 0xCF, 0x00, 0x02, 0x04, 0x0A, 0x01, 0x0B, 0x02 };
+  ModbusFrame request(0x01, 16, request_data, 9);
+  uint8_t *response_data = new uint8_t[5] { 0x07, 0xCF, 0x00, 0x02, 0xAA };
+  ModbusFrame response(0x01, 16, response_data, 5);
+
+  // Act
+  vector<ModbusData*>* split_data = data_splitter.split_request_and_response_data(&request, &response);
+
+  // Assert
+  TEST_ASSERT_TRUE(split_data == nullptr);
+}
+
+void test_unmatching_starting_address_function_16_results_in_nullptr() {
+  // Arrange
+  ModbusDataSplitter data_splitter;
+  uint8_t *request_data = new uint8_t[9] { 0x07, 0xCF, 0x00, 0x02, 0x04, 0x0A, 0x01, 0x0B, 0x02 };
+  ModbusFrame request(0x01, 16, request_data, 9);
+  uint8_t *response_data = new uint8_t[4] { 0x07, 0xAF, 0x00, 0x02 };
+  ModbusFrame response(0x01, 16, response_data, 4);
+
+  // Act
+  vector<ModbusData*>* split_data = data_splitter.split_request_and_response_data(&request, &response);
+
+  // Assert
+  TEST_ASSERT_TRUE(split_data == nullptr);
+}
+
+void test_unmatching_register_quantity_function_16_results_in_nullptr() {
+  // Arrange
+  ModbusDataSplitter data_splitter;
+  uint8_t *request_data = new uint8_t[9] { 0x07, 0xCF, 0x00, 0x02, 0x04, 0x0A, 0x01, 0x0B, 0x02 };
+  ModbusFrame request(0x01, 16, request_data, 9);
+  uint8_t *response_data = new uint8_t[4] { 0x07, 0xAF, 0x00, 0x01 };
+  ModbusFrame response(0x01, 16, response_data, 4);
+
+  // Act
+  vector<ModbusData*>* split_data = data_splitter.split_request_and_response_data(&request, &response);
+
+  // Assert
+  TEST_ASSERT_TRUE(split_data == nullptr);
+}
+
 int runUnityTests(void) {
   UNITY_BEGIN();
 
@@ -189,7 +264,12 @@ int runUnityTests(void) {
   RUN_TEST(test_incorrect_byte_count_in_response_data_function_3_results_in_nullptr);
   RUN_TEST(test_incorrect_data_length_in_response_function_3_results_in_nullptr);
   RUN_TEST(test_matching_pair_function_16_with_two_holding_registers);
-
+  RUN_TEST(test_incorrect_byte_count_in_request_data_function_16_results_in_nullptr);
+  RUN_TEST(test_incorrect_data_length_in_request_data_function_16_results_in_nullptr);
+  RUN_TEST(test_incorrect_data_length_in_response_function_16_results_in_nullptr);
+  RUN_TEST(test_unmatching_starting_address_function_16_results_in_nullptr);
+  RUN_TEST(test_unmatching_register_quantity_function_16_results_in_nullptr);
+  
   return UNITY_END();
 }
 
