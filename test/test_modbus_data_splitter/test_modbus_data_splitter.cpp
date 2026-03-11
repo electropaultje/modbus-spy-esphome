@@ -152,6 +152,29 @@ void test_incorrect_data_length_in_response_function_3_results_in_nullptr() {
   // Assert
   TEST_ASSERT_TRUE(split_data == nullptr);
 }
+
+void test_matching_pair_function_16_with_two_holding_registers() {
+  // Arrange
+  ModbusDataSplitter data_splitter;
+  uint8_t *request_data = new uint8_t[9] { 0x07, 0xCF, 0x00, 0x02, 0x04, 0x0A, 0x01, 0x0B, 0x02 };
+  ModbusFrame request(0x01, 16, request_data, 9);
+  uint8_t *response_data = new uint8_t[4] { 0x07, 0xCF, 0x00, 0x02 };
+  ModbusFrame response(0x01, 16, response_data, 4);
+
+  // Act
+  vector<ModbusData*>* split_data = data_splitter.split_request_and_response_data(&request, &response);
+
+  // Assert
+  TEST_ASSERT_TRUE(split_data != nullptr);
+  TEST_ASSERT_EQUAL_UINT8(2, split_data->size());
+  ModbusData* data0 = split_data->at(0);
+  TEST_ASSERT_EQUAL_UINT16(0x07CF, data0->address);
+  TEST_ASSERT_EQUAL_UINT16(0x0A01, data0->value);
+  ModbusData* data1 = split_data->at(1);
+  TEST_ASSERT_EQUAL_UINT16(0x07D0, data1->address);
+  TEST_ASSERT_EQUAL_UINT16(0x0B02, data1->value);
+}
+
 int runUnityTests(void) {
   UNITY_BEGIN();
 
@@ -165,6 +188,7 @@ int runUnityTests(void) {
   RUN_TEST(test_incorrect_request_data_length_function_3_results_in_nullptr);
   RUN_TEST(test_incorrect_byte_count_in_response_data_function_3_results_in_nullptr);
   RUN_TEST(test_incorrect_data_length_in_response_function_3_results_in_nullptr);
+  RUN_TEST(test_matching_pair_function_16_with_two_holding_registers);
 
   return UNITY_END();
 }
