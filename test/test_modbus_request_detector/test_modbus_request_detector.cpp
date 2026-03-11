@@ -447,7 +447,7 @@ void test_modbus_request_detector_request_function_15() {
 void test_modbus_request_detector_request_function_16() {
   // Arrange
   FakeUartInterface fake_uart_interface;
-  uint8_t fake_data[] = { 0x01, 0x10, 0x07, 0xCF, 0x00, 0x01, 0x02, 0xD5, 0x03 };
+  uint8_t fake_data[] = { 0x01, 0x10, 0x07, 0xCF, 0x00, 0x01, 0x02, 0x00, 0x01, 0x00, 0xAF };
   ModbusRequestDetector modbus_request_detector(&fake_uart_interface);
   bool uart_task_should_stop = false;
   FakeUartInterfaceTaskArgs args = { 
@@ -455,7 +455,7 @@ void test_modbus_request_detector_request_function_16() {
     .initial_delay_in_ms = 0,
     .delay_between_bytes_in_us = 573,
     .data_to_return = fake_data,
-    .len_of_data_to_return = 9,
+    .len_of_data_to_return = 11,
     .should_stop = &uart_task_should_stop
   };
   TaskHandle_t uart_task_handle { nullptr };
@@ -478,7 +478,7 @@ void test_modbus_request_detector_request_function_16() {
   TEST_ASSERT_FALSE(nullptr == request_frame);
   TEST_ASSERT_EQUAL_UINT8(0x01, request_frame->get_address());
   TEST_ASSERT_EQUAL_UINT8(0x10, request_frame->get_function());
-  TEST_ASSERT_EQUAL_UINT8(5, request_frame->get_data_length());
+  TEST_ASSERT_EQUAL_UINT8(7, request_frame->get_data_length());
   
   const uint8_t *actual_data = request_frame->get_data();
   TEST_ASSERT_EQUAL_UINT8(0x07, actual_data[0]);
@@ -486,6 +486,8 @@ void test_modbus_request_detector_request_function_16() {
   TEST_ASSERT_EQUAL_UINT8(0x00, actual_data[2]);
   TEST_ASSERT_EQUAL_UINT8(0x01, actual_data[3]);
   TEST_ASSERT_EQUAL_UINT8(0x02, actual_data[4]);
+  TEST_ASSERT_EQUAL_UINT8(0x00, actual_data[5]);
+  TEST_ASSERT_EQUAL_UINT8(0x01, actual_data[6]);
 }
 
 void test_modbus_request_detector_unsupported_function_results_in_nullptr() {

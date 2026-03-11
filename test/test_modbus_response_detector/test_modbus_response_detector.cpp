@@ -474,7 +474,7 @@ void test_modbus_response_detector_response_function_6() {
 void test_modbus_response_detector_response_function_16() {
   // Arrange
   FakeUartInterface fake_uart_interface;
-  uint8_t fake_data[] = { 0x01, 0x10, 0x07, 0xCF, 0x00, 0x01, 0x82, 0x30 };
+  uint8_t fake_data[] = { 0x01, 0x10, 0x07, 0xCF, 0x00, 0x01, 0x30, 0x82 };
   ModbusResponseDetector modbus_response_detector(&fake_uart_interface);
   bool uart_task_should_stop = false;
   FakeUartInterfaceTaskArgs args = { 
