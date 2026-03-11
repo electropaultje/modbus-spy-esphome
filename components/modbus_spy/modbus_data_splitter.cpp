@@ -28,6 +28,10 @@ vector<ModbusData*>* ModbusDataSplitter::split_request_and_response_data(ModbusF
       split_data = handle_function_6(request, response);
       break;
     }
+    case 16: {
+      split_data = handle_function_16(request, response);
+      break;
+    }
     default:
       ESP_LOGD(TAG, "Unsupported Modbus function: %d", request->get_function());
       break;
@@ -124,6 +128,11 @@ vector<ModbusData*>* ModbusDataSplitter::handle_function_6(ModbusFrame* request,
   split_data->push_back(modbus_data);
 
   return split_data;
+}
+
+std::vector<ModbusData*>* ModbusDataSplitter::handle_function_16(ModbusFrame* request, ModbusFrame* response) {
+  // Implementation for function 16
+  return nullptr;
 }
 
 } //namespace modbus_spy
