@@ -28,6 +28,10 @@ vector<ModbusData*>* ModbusDataSplitter::split_request_and_response_data(ModbusF
       split_data = handle_function_6(request, response);
       break;
     }
+    case 16: {
+      split_data = handle_function_16(request, response);
+      break;
+    }
     default:
       ESP_LOGD(TAG, "Unsupported Modbus function: %d", request->get_function());
       break;
@@ -115,8 +119,6 @@ vector<ModbusData*>* ModbusDataSplitter::handle_function_6(ModbusFrame* request,
   uint8_t value_low_byte = request_data[3];
   uint16_t value = (value_high_byte << 8) | value_low_byte;
 
-  uint16_t data_model_address = 40001 + address;
-
   vector<ModbusData*> *split_data = new vector<ModbusData*>;
   ModbusData *modbus_data = new ModbusData;
   modbus_data->address = address;
@@ -124,6 +126,57 @@ vector<ModbusData*>* ModbusDataSplitter::handle_function_6(ModbusFrame* request,
   split_data->push_back(modbus_data);
 
   return split_data;
+}
+
+std::vector<ModbusData*>* ModbusDataSplitter::handle_function_16(ModbusFrame* request, ModbusFrame* response) {
+  // Check request data length
+  if (request->get_data_length() < 5) {
+    return nullptr;
+  }
+  // Check if request byte count matches the quantity of registers requested
+  const uint16_t request_quantity_of_registers = (request->get_data()[2] << 8) | request->get_data()[3];
+  const uint8_t expected_byte_count = request_quantity_of_registers * 2;
+  const uint8_t byte_count = request->get_data()[4];
+  if (byte_count != expected_byte_count) {
+    return nullptr;
+  }
+  const uint8_t expected_request_data_length = 5 + byte_count;
+  if (request->get_data_length() != expected_request_data_length) {
+    return nullptr;
+  }
+
+  // Check response data length
+  if (response->get_data_length() != 4) {
+    return nullptr;
+  }
+
+  // Check if response starting address matches request starting address
+  const uint16_t response_starting_address = (response->get_data()[0] << 8) | response->get_data()[1];
+  const uint16_t request_starting_address = (request->get_data()[0] << 8) | request->get_data()[1];
+  if (response_starting_address != request_starting_address) {
+    return nullptr;
+  }
+  // Check if response quantity of registers matches request quantity of registers
+  const uint16_t response_quantity_of_registers = (response->get_data()[2] << 8) | response->get_data()[3];
+  if (response_quantity_of_registers != request_quantity_of_registers) {
+    return nullptr;
+  }
+
+  // Passed all checks, create ModbusData objects
+  
+  vector<ModbusData*> *split_data = new vector<ModbusData*>;
+  for (uint8_t i = 0; i < request_quantity_of_registers; ++i) {
+    ModbusData *modbus_data = new ModbusData;
+    modbus_data->address = request_starting_address + i;
+    constexpr uint8_t register_data_start_index_in_request = 5;
+    const uint8_t value_high_byte = request->get_data()[register_data_start_index_in_request + i * 2];
+    const uint8_t value_low_byte = request->get_data()[register_data_start_index_in_request + i * 2 + 1];
+    const uint16_t value = (value_high_byte << 8) | value_low_byte;
+    modbus_data->value = value;
+    split_data->push_back(modbus_data);
+  }
+  return split_data;
+
 }
 
 } //namespace modbus_spy

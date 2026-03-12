@@ -22,6 +22,7 @@ class ModbusDataSplitter {
   bool address_and_function_match(ModbusFrame* request, ModbusFrame* response);
   std::vector<ModbusData*>* handle_function_3_and_4(ModbusFrame* request, ModbusFrame* response);
   std::vector<ModbusData*>* handle_function_6(ModbusFrame* request, ModbusFrame* response);
+  std::vector<ModbusData*>* handle_function_16(ModbusFrame* request, ModbusFrame* response);
 };
 
 } //namespace modbus_spy

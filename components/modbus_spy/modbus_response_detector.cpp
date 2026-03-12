@@ -41,7 +41,7 @@ ModbusFrame* ModbusResponseDetector::detect_response() {
 	//    ○ See if the last two bytes contain the correct CRC
 	//  	○ If so, it is a response. If not, it is not a response.
 	//  If function is 5, 6, 15 or 16:
-  //  	○ Read five more bytes. Assum it is the data bytes
+  //  	○ Read four more bytes. Assum it is the data bytes
   //  	○ Read two more bytes. Assume it is the CRC
 	//    ○ See if the last two bytes contain the correct CRC
 	//  	○ If so, it is a response. If not, it is not a response.

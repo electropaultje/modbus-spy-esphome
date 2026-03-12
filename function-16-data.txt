@@ -1,0 +1,17 @@
+01 10 07 cf 00 01 02 00 01 00 AF
+
+01	    address
+10	    function code
+07 cf	  starting address
+00 01	  quantity of registers
+02	    byte count
+00 01   register data
+00 AF	  CRC
+
+01 10 07 cf 00 01 82 30
+
+01	    address
+10	    function code
+07 cf	  starting address
+00 01	  quantity of registers
+82 30   CRC

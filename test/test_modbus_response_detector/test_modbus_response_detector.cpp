@@ -470,6 +470,50 @@ void test_modbus_response_detector_response_function_6() {
   TEST_ASSERT_EQUAL_UINT8(0x76, actual_data[3]);
 }
 
+
+void test_modbus_response_detector_response_function_16() {
+  // Arrange
+  FakeUartInterface fake_uart_interface;
+  uint8_t fake_data[] = { 0x01, 0x10, 0x07, 0xCF, 0x00, 0x01, 0x30, 0x82 };
+  ModbusResponseDetector modbus_response_detector(&fake_uart_interface);
+  bool uart_task_should_stop = false;
+  FakeUartInterfaceTaskArgs args = { 
+    .uart_interface = &fake_uart_interface,
+    .initial_delay_in_ms = 2,
+    .delay_between_bytes_in_us = 573,
+    .data_to_return = fake_data,
+    .len_of_data_to_return = 9,
+    .should_stop = &uart_task_should_stop
+  };
+  TaskHandle_t uart_task_handle { nullptr };
+  xTaskCreatePinnedToCore(fake_uart_interface_task,
+                    "fake_uart_interface_task", // name
+                    30000,                      // stack size (in words)
+                    &args,                      // input params
+                    1,                          // priority
+                    &uart_task_handle,          // Handle, not needed
+                    0                           // core
+  );
+
+  // Act
+  ModbusFrame *response_frame = modbus_response_detector.detect_response();
+  uart_task_should_stop = true;
+  // Delay 5 ms to make sure that the fake uart task is done
+  delay(5);
+
+  // Assert
+  TEST_ASSERT_FALSE(nullptr == response_frame);
+  TEST_ASSERT_EQUAL_UINT8(0x01, response_frame->get_address());
+  TEST_ASSERT_EQUAL_UINT8(0x10, response_frame->get_function());
+  TEST_ASSERT_EQUAL_UINT8(4, response_frame->get_data_length());
+  
+  const uint8_t *actual_data = response_frame->get_data();
+  TEST_ASSERT_EQUAL_UINT8(0x07, actual_data[0]);
+  TEST_ASSERT_EQUAL_UINT8(0xCF, actual_data[1]);
+  TEST_ASSERT_EQUAL_UINT8(0x00, actual_data[2]);
+  TEST_ASSERT_EQUAL_UINT8(0x01, actual_data[3]);
+}
+
 void generate_crc() {
   uint8_t crc_data[] = { 0x02, 0x03, 0x04, 0xAF, 0x00, 0x01 };
   uint16_t expected_crc = esphome::crc16(crc_data, 6);
@@ -493,6 +537,7 @@ int runUnityTests(void) {
 
   RUN_TEST(test_modbus_response_detector_response_function_1);
   RUN_TEST(test_modbus_response_detector_response_function_6);
+  RUN_TEST(test_modbus_response_detector_response_function_16);
 
   // CRC generation tool :P
   // RUN_TEST(generate_crc);
