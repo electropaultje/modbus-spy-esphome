@@ -47,6 +47,10 @@ void ModbusSpy::set_flow_control_pin(GPIOPin* flow_control_pin) {
   }
 }
 
+void ModbusSpy::set_log_unconfigured_items(bool log_unconfigured_items) {
+    this->data_publisher_.set_log_unconfigured_items(log_unconfigured_items);
+  }
+
 void ModbusSpy::setup() {
   this->sniffer_->start_sniffing();
 }

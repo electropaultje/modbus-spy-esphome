@@ -218,5 +218,9 @@ IModbusBinarySensor** ModbusDataPublisher::find_binary_bit_sensors(uint8_t devic
   return (*device_sensors->binary_sensors_bit_)[data_model_register_address];
 }
 
+void ModbusDataPublisher::set_log_unconfigured_items(bool log_unconfigured_items) {
+  this->should_dump_not_configured_data_ = log_unconfigured_items;
+}
+
 } //namespace modbus_spy
 } //namespace esphome

@@ -45,6 +45,7 @@ class ModbusDataPublisher : public IModbusDataPublisher {
   virtual void add_register_sensor(uint8_t device_address, uint16_t register_address, IModbusRegisterSensor* register_sensor) override;
   virtual void add_binary_sensor(uint8_t device_address, uint16_t register_address, int8_t bit, IModbusBinarySensor* binary_sensor) override;
   virtual void publish_data(uint8_t device_address, uint8_t function, std::vector<ModbusData*>* data) override;
+  void set_log_unconfigured_items(bool log_unconfigured_items);
 
  protected:
   std::map<uint8_t, DeviceSensors*> device_sensors_;
