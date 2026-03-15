@@ -30,6 +30,7 @@ class ModbusSpy : public Component, public uart::UARTDevice {
   sensor::Sensor* create_sensor(uint8_t device_address, uint16_t register_address);
   binary_sensor::BinarySensor* create_binary_sensor(uint8_t device_address, uint16_t register_address, int8_t bit);
   void set_flow_control_pin(GPIOPin* flow_control_pin);
+  void set_log_unconfigured_items(bool log_unconfigured_items);
   
  protected:
   ModbusSniffer* sniffer_;
