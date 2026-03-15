@@ -1,7 +1,9 @@
 #include <vector>
 
-#include <Arduino.h>
 #include <unity.h>
+
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
 
 #include "fake_modbus_binary_sensor.h"
 #include "fake_modbus_register_sensor.h"
@@ -260,12 +262,10 @@ int runUnityTests(void) {
   return UNITY_END();
 }
 
-void setup() {
+extern "C" void app_main() {
   // Wait 2 seconds before the Unity test runner
   // establishes connection with a board Serial interface
-  delay(2000);
+  vTaskDelay(pdMS_TO_TICKS(2000));
 
   runUnityTests();
 }
-
-void loop() {}

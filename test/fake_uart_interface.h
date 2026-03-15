@@ -3,9 +3,10 @@
 
 #include <queue>
 
-#include <Arduino.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
+#include "esp_timer.h"
+#include <rom/ets_sys.h>
 
 #include <test_includes.h>
 #include <uart_interface.h>
@@ -73,7 +74,7 @@ void fake_uart_interface_task(void* param) {
   FakeUartInterfaceTaskArgs *args = reinterpret_cast<FakeUartInterfaceTaskArgs*>(param);
   FakeUartInterface *uart_interface = args->uart_interface;
   if (args->initial_delay_in_ms > 0) {
-    delay(args->initial_delay_in_ms);
+    vTaskDelay(pdMS_TO_TICKS(args->initial_delay_in_ms));
   }
   if (*args->should_stop) {
     vTaskDelete(NULL);
@@ -88,7 +89,7 @@ void fake_uart_interface_task(void* param) {
       if (delay_remaining_for_next_byte > MAX_DELAY_PER_LOOP_IN_US) {
         actual_delay_this_loop = MAX_DELAY_PER_LOOP_IN_US;
       }
-      delayMicroseconds(actual_delay_this_loop);
+      esp_rom_delay_us(actual_delay_this_loop);
       if (delay_remaining_for_next_byte > actual_delay_this_loop) {
         delay_remaining_for_next_byte -= actual_delay_this_loop;
       } else {

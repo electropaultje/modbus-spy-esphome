@@ -1,8 +1,8 @@
 #include <cmath>
 
-#include <Arduino.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
+
 #include <unity.h>
 
 #include "fake_uart_interface.h"
@@ -45,7 +45,7 @@ void test_modbus_response_detector_response_function_3_directly_available() {
   ModbusFrame *response_frame = modbus_response_detector.detect_response();
   uart_task_should_stop = true;
   // Delay 5 ms to make sure that the fake uart task is done
-  delay(5);
+  vTaskDelay(pdMS_TO_TICKS(5));
 
   // Assert
   TEST_ASSERT_FALSE(nullptr == response_frame);
@@ -87,7 +87,7 @@ void test_modbus_response_detector_response_function_3_available_after_50ms() {
   ModbusFrame *response_frame = modbus_response_detector.detect_response();
   uart_task_should_stop = true;
   // Delay to make sure that the fake uart task is done
-  delay(10);
+  vTaskDelay(pdMS_TO_TICKS(10));
 
   // Assert
   TEST_ASSERT_FALSE(nullptr == response_frame);
@@ -129,7 +129,7 @@ void test_modbus_response_detector_no_data_before_timeout_results_in_nullptr() {
   ModbusFrame *response_frame = modbus_response_detector.detect_response();
   uart_task_should_stop = true;
   // Delay to make sure that the fake uart task is done
-  delay(150);
+  vTaskDelay(pdMS_TO_TICKS(150));
 
   // Assert
   TEST_ASSERT_TRUE(nullptr == response_frame);
@@ -163,7 +163,7 @@ void test_modbus_response_detector_incomplete_data_results_in_nullptr() {
   ModbusFrame *response_frame = modbus_response_detector.detect_response();
   uart_task_should_stop = true;
   // Delay 5 ms to make sure that the fake uart task is done
-  delay(5);
+  vTaskDelay(pdMS_TO_TICKS(5));
 
   // Assert
   TEST_ASSERT_TRUE(nullptr == response_frame);
@@ -197,7 +197,7 @@ void test_modbus_response_detector_wrong_crc_results_in_nullptr() {
   ModbusFrame *response_frame = modbus_response_detector.detect_response();
   uart_task_should_stop = true;
   // Delay 5 ms to make sure that the fake uart task is done
-  delay(5);
+  vTaskDelay(pdMS_TO_TICKS(5));
 
   // Assert
   TEST_ASSERT_TRUE(nullptr == response_frame);
@@ -231,7 +231,7 @@ void test_modbus_response_detector_request_function_3_results_in_nullptr() {
   ModbusFrame *response_frame = modbus_response_detector.detect_response();
   uart_task_should_stop = true;
   // Delay 5 ms to make sure that the fake uart task is done
-  delay(5);
+  vTaskDelay(pdMS_TO_TICKS(5));
 
   // Assert
   TEST_ASSERT_TRUE(nullptr == response_frame);
@@ -265,7 +265,7 @@ void test_modbus_response_detector_unsupported_function_results_in_nullptr() {
   ModbusFrame *response_frame = modbus_response_detector.detect_response();
   uart_task_should_stop = true;
   // Delay 5 ms to make sure that the fake uart task is done
-  delay(5);
+  vTaskDelay(pdMS_TO_TICKS(5));
 
   // Assert
   TEST_ASSERT_TRUE(nullptr == response_frame);
@@ -299,7 +299,7 @@ void test_modbus_response_detector_receive_timeout_in_between_characters_results
   ModbusFrame *response_frame = modbus_response_detector.detect_response();
   uart_task_should_stop = true;
   // Delay 5 ms to make sure that the fake uart task is done
-  delay(5);
+  vTaskDelay(pdMS_TO_TICKS(5));
 
   // Assert
   TEST_ASSERT_TRUE(nullptr == response_frame);
@@ -336,7 +336,7 @@ void test_modbus_response_detector_receive_timeout_in_between_characters_lower_b
   ModbusFrame *response_frame = modbus_response_detector.detect_response();
   uart_task_should_stop = true;
   // Delay 5 ms to make sure that the fake uart task is done
-  delay(5);
+  vTaskDelay(pdMS_TO_TICKS(5));
 
   // Assert
   TEST_ASSERT_TRUE(nullptr == response_frame);
@@ -372,7 +372,7 @@ void test_modbus_response_detector_slow_receiving_within_timeout_in_between_char
   ModbusFrame *response_frame = modbus_response_detector.detect_response();
   uart_task_should_stop = true;
   // Delay 5 ms to make sure that the fake uart task is done
-  delay(5);
+  vTaskDelay(pdMS_TO_TICKS(5));
 
   // Assert
   TEST_ASSERT_FALSE(nullptr == response_frame);
@@ -414,7 +414,7 @@ void test_modbus_response_detector_response_function_1() {
   ModbusFrame *response_frame = modbus_response_detector.detect_response();
   uart_task_should_stop = true;
   // Delay 5 ms to make sure that the fake uart task is done
-  delay(5);
+  vTaskDelay(pdMS_TO_TICKS(5));
 
   // Assert
   TEST_ASSERT_FALSE(nullptr == response_frame);
@@ -455,7 +455,7 @@ void test_modbus_response_detector_response_function_6() {
   ModbusFrame *response_frame = modbus_response_detector.detect_response();
   uart_task_should_stop = true;
   // Delay 5 ms to make sure that the fake uart task is done
-  delay(5);
+  vTaskDelay(pdMS_TO_TICKS(5));
 
   // Assert
   TEST_ASSERT_FALSE(nullptr == response_frame);
@@ -499,7 +499,7 @@ void test_modbus_response_detector_response_function_16() {
   ModbusFrame *response_frame = modbus_response_detector.detect_response();
   uart_task_should_stop = true;
   // Delay 5 ms to make sure that the fake uart task is done
-  delay(5);
+  vTaskDelay(pdMS_TO_TICKS(5));
 
   // Assert
   TEST_ASSERT_FALSE(nullptr == response_frame);
@@ -545,12 +545,10 @@ int runUnityTests(void) {
   return UNITY_END();
 }
 
-void setup() {
+extern "C" void app_main() {
   // Wait 2 seconds before the Unity test runner
   // establishes connection with a board Serial interface
-  delay(2000);
+  vTaskDelay(pdMS_TO_TICKS(2000));
 
   runUnityTests();
 }
-
-void loop() {}

@@ -4,12 +4,7 @@
 
  #ifndef UNIT_TEST
 
-#include <Arduino.h>
-
-void setup() {
-}
-
-void loop() {
+extern "C" void app_main() {
 }
 
 #endif // UNIT_TEST

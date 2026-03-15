@@ -1,6 +1,8 @@
 #include <vector>
 
-#include <Arduino.h>
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
+
 #include <unity.h>
 
 #include "fake_modbus_data_publisher.h"
@@ -42,10 +44,10 @@ void test_modbus_sniffer_with_fake_detectors_good() {
 
   // Act
   modbus_sniffer.start_sniffing();
-  delay(20);
+  vTaskDelay(pdMS_TO_TICKS(20));
   modbus_sniffer.stop_sniffing();
   // Delay 10 ms to make sure that the sniffer task is done
-  delay(20);
+  vTaskDelay(pdMS_TO_TICKS(20));
 
   // Assert
   vector<PublishedData*> *published_data = fake_data_publisher.get_published_data();
@@ -84,11 +86,11 @@ void test_modbus_sniffer_with_actual_detectors_good() {
 
   // Act
   modbus_sniffer.start_sniffing();
-  delay(15);
+  vTaskDelay(pdMS_TO_TICKS(15));
   modbus_sniffer.stop_sniffing();
   uart_task_should_stop = true;
   // Delay 15 ms to make sure that the fake uart and sniffer tasks are done
-  delay(1200);
+  vTaskDelay(pdMS_TO_TICKS(1200));
 
   // Assert
   vector<PublishedData*> *published_data = fake_data_publisher.get_published_data();
@@ -108,10 +110,10 @@ void test_modbus_sniffer_with_actual_detectors_no_data() {
 
   // Act
   modbus_sniffer.start_sniffing();
-  delay(5);
+  vTaskDelay(pdMS_TO_TICKS(5));
   modbus_sniffer.stop_sniffing();
   // Delay to make sure that the sniffer task is done
-  delay(1200);
+  vTaskDelay(pdMS_TO_TICKS(1200));
 
   // Assert
   vector<PublishedData*> *published_data = fake_data_publisher.get_published_data();
@@ -138,12 +140,10 @@ int runUnityTests(void) {
   return UNITY_END();
 }
 
-void setup() {
+extern "C" void app_main() {
   // Wait 2 seconds before the Unity test runner
   // establishes connection with a board Serial interface
-  delay(2000);
+  vTaskDelay(pdMS_TO_TICKS(2000));
 
   runUnityTests();
 }
-
-void loop() {}
