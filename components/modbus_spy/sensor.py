@@ -13,15 +13,23 @@ CONF_MODBUS_SPY_ID = 'modbus_spy_id'
 CONF_DEVICE_ADDRESS = 'device_address'
 CONF_REGISTER_ADDRESS = 'register_address'
 CONF_RAW_REGISTER_ADDRESS = 'raw_register_address'
+CONF_REGISTER_TYPE = 'register_type'
+
+def _validate_register_type(config):
+    if CONF_REGISTER_TYPE in config and CONF_RAW_REGISTER_ADDRESS not in config:
+        raise cv.Invalid(f"'{CONF_REGISTER_TYPE}' can only be used with '{CONF_RAW_REGISTER_ADDRESS}'")
+    return config
 
 CONFIG_SCHEMA = cv.All(
     sensor.sensor_schema().extend({
         cv.GenerateID(CONF_MODBUS_SPY_ID): cv.use_id(ModbusSpy),
         cv.Required(CONF_DEVICE_ADDRESS): int,
         cv.Optional(CONF_REGISTER_ADDRESS): int,
-        cv.Optional(CONF_RAW_REGISTER_ADDRESS): int
+        cv.Optional(CONF_RAW_REGISTER_ADDRESS): int,
+        cv.Optional(CONF_REGISTER_TYPE): cv.one_of('holding', 'input', lower=True),
     }),
-    cv.has_at_least_one_key(CONF_REGISTER_ADDRESS, CONF_RAW_REGISTER_ADDRESS)
+    cv.has_at_least_one_key(CONF_REGISTER_ADDRESS, CONF_RAW_REGISTER_ADDRESS),
+    _validate_register_type,
 )
 
 async def to_code(config):
@@ -29,7 +37,7 @@ async def to_code(config):
     if CONF_REGISTER_ADDRESS in config:
         register_address = config[CONF_REGISTER_ADDRESS]
     else:
-        # Assume holding register; convert raw address to data model address
-        register_address = config[CONF_RAW_REGISTER_ADDRESS] + 40001
+        offset = 40001 if config.get(CONF_REGISTER_TYPE, 'holding') == 'holding' else 30001
+        register_address = config[CONF_RAW_REGISTER_ADDRESS] + offset
     modbus_register_sensor = modbus_spy.create_sensor(config[CONF_DEVICE_ADDRESS], register_address)
     await sensor.register_sensor(modbus_register_sensor, config)

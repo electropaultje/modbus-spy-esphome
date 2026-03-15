@@ -13,7 +13,13 @@ CONF_MODBUS_SPY_ID = 'modbus_spy_id'
 CONF_DEVICE_ADDRESS = 'device_address'
 CONF_REGISTER_ADDRESS = 'register_address'
 CONF_RAW_REGISTER_ADDRESS = 'raw_register_address'
+CONF_REGISTER_TYPE = 'register_type'
 CONF_BIT = 'bit'
+
+def _validate_register_type(config):
+    if CONF_REGISTER_TYPE in config and CONF_RAW_REGISTER_ADDRESS not in config:
+        raise cv.Invalid(f"'{CONF_REGISTER_TYPE}' can only be used with '{CONF_RAW_REGISTER_ADDRESS}'")
+    return config
 
 CONFIG_SCHEMA = cv.All(
     binary_sensor.binary_sensor_schema().extend({
@@ -21,9 +27,11 @@ CONFIG_SCHEMA = cv.All(
         cv.Required(CONF_DEVICE_ADDRESS): int,
         cv.Optional(CONF_REGISTER_ADDRESS): int,
         cv.Optional(CONF_RAW_REGISTER_ADDRESS): int,
-        cv.Optional(CONF_BIT, default=-1): cv.int_range(-1, 15)
+        cv.Optional(CONF_REGISTER_TYPE): cv.one_of('holding', 'input', lower=True),
+        cv.Optional(CONF_BIT, default=-1): cv.int_range(-1, 15),
     }),
-    cv.has_at_least_one_key(CONF_REGISTER_ADDRESS, CONF_RAW_REGISTER_ADDRESS)
+    cv.has_at_least_one_key(CONF_REGISTER_ADDRESS, CONF_RAW_REGISTER_ADDRESS),
+    _validate_register_type,
 )
 
 async def to_code(config):
@@ -31,7 +39,7 @@ async def to_code(config):
     if CONF_REGISTER_ADDRESS in config:
         register_address = config[CONF_REGISTER_ADDRESS]
     else:
-        # Assume holding register; convert raw address to data model address
-        register_address = config[CONF_RAW_REGISTER_ADDRESS] + 40001
+        offset = 40001 if config.get(CONF_REGISTER_TYPE, 'holding') == 'holding' else 30001
+        register_address = config[CONF_RAW_REGISTER_ADDRESS] + offset
     modbus_binary_sensor = modbus_spy.create_binary_sensor(config[CONF_DEVICE_ADDRESS], register_address, config[CONF_BIT])
     await binary_sensor.register_binary_sensor(modbus_binary_sensor, config)
