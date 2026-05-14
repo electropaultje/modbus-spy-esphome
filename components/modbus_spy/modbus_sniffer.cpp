@@ -36,12 +36,12 @@ ModbusSniffer::~ModbusSniffer() {
 void ModbusSniffer::start_sniffing() {
   ESP_LOGD(TAG, "ModbusSniffer::start_sniffing");
   xTaskCreatePinnedToCore(ModbusSniffer::sniff_loop_task,
-                              "sniff_task", // name
-                              50000,        // stack size (in words)
-                              this,         // input params
-                              1,            // priority
-                              nullptr,      // Handle, not needed
-                              1             // core
+                              "sniff_task",         // name
+                              50000,                // stack size (in words)
+                              this,                 // input params
+                              1,                    // priority
+                              nullptr,              // Handle, not needed
+                              SOC_CPU_CORES_NUM-1   // core
   );
 }
 
