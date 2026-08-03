@@ -43,7 +43,7 @@ external_components:
   - source:
       type: git
       url: https://github.com/electropaultje/modbus-spy-esphome
-      ref: 1.0
+      ref: latest-stable
 
 # Note: The uart settings depend on the Modbus configuration of the system that you connect it to
 uart:
