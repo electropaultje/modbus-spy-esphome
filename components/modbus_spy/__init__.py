@@ -39,7 +39,7 @@ SET_LOG_UNCONFIGURED_ITEMS_ACTION_SCHEMA = cv.maybe_simple_value(
   key=CONF_LOG_NOT_CONFIGURED_DATA
 )
 
-@automation.register_action('modbus_spy.set_log_unconfigured_items', SetLogUnconfiguredItemsAction, SET_LOG_UNCONFIGURED_ITEMS_ACTION_SCHEMA)
+@automation.register_action('modbus_spy.set_log_unconfigured_items', SetLogUnconfiguredItemsAction, SET_LOG_UNCONFIGURED_ITEMS_ACTION_SCHEMA, synchronous=True)
 async def set_log_unconfigured_items_to_code(config, action_id, template_arg, args):
   parent = await cg.get_variable(config[CONF_ID])
   var = cg.new_Pvariable(action_id, template_arg, parent)
