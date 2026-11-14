@@ -15,6 +15,7 @@ namespace modbus_spy {
 
 class IModbusRequestDetector {
  public:
+  virtual ~IModbusRequestDetector() {}
   virtual ModbusFrame* detect_request() = 0;
 };
 
@@ -25,6 +26,7 @@ class ModbusRequestDetector : public IModbusRequestDetector {
 
  public:
   ModbusRequestDetector(IUartInterface* uart_interface);
+  virtual ~ModbusRequestDetector() override {}
   
  private:
   ModbusRequestDetector(ModbusRequestDetector&);
