@@ -23,7 +23,6 @@ ModbusBinarySensor::ModbusBinarySensor() {
 }
 
 ModbusBinarySensor::~ModbusBinarySensor() {
-  delete this->sensor_;
 }
 
 void ModbusBinarySensor::publish_state(bool state) {

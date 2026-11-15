@@ -23,7 +23,6 @@ ModbusRegisterSensor::ModbusRegisterSensor() {
 }
 
 ModbusRegisterSensor::~ModbusRegisterSensor() {
-  delete this->sensor_;
 }
 
 void ModbusRegisterSensor::publish_state(uint16_t state) {
