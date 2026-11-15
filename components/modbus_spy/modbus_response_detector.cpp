@@ -24,10 +24,10 @@ ModbusResponseDetector::ModbusResponseDetector(IUartInterface* uart_interface) :
     constexpr uint8_t bits_per_byte = 11;
     const float us_per_byte = bits_per_byte * us_per_bit;
     this->max_time_between_bytes_in_us_ = static_cast<uint16_t>(round(1.5 * us_per_byte));
-    ESP_LOGD(TAG, "Baud rate (<= 19200): %u, Max time between bytes set to %u us", baud_rate, this->max_time_between_bytes_in_us_);
+    ESP_LOGD(TAG, "Baud rate (<= 19200): %lu, Max time between bytes set to %u us", baud_rate, this->max_time_between_bytes_in_us_);
   } else {
     this->max_time_between_bytes_in_us_ = MIN_TIMEOUT_BETWEEN_BYTES_IN_US;
-    ESP_LOGD(TAG, "Baud rate (> 19200): %u, Max time between bytes set to %u us", baud_rate, this->max_time_between_bytes_in_us_);
+    ESP_LOGD(TAG, "Baud rate (> 19200): %lu, Max time between bytes set to %u us", baud_rate, this->max_time_between_bytes_in_us_);
   }
 }
 
